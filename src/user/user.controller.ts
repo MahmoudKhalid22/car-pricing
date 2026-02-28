@@ -1,12 +1,44 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { UserDto } from './dtos/user.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { UpdateUserDto, UserDto } from './dtos/user.dto';
 import { UserService } from './user.service';
+import { User } from './user.entity';
+import { FindOneOptions } from 'typeorm';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
   @Post('register')
-  createUser(@Body() userData: UserDto) {
-    this.userService.create(userData);
+  async createUser(@Body() userData: UserDto) {
+    await this.userService.create(userData);
+  }
+
+  @Get('/users')
+  async getAllUsers() {
+    return await this.userService.findAll();
+  }
+  @Get('/:id')
+  async getOneUser(@Param('id') id: number) {
+    return await this.userService.findOneUser(id);
+  }
+
+  @Put(':id')
+  async updateUserData(
+    @Param('id') id: number,
+    @Body() userData: UpdateUserDto,
+  ) {
+    await this.userService.updateUser(id, userData);
+  }
+
+  @Delete('delete/:id')
+  async deleteUser(@Param('id') id: number) {
+    await this.userService.removeUser(id);
   }
 }

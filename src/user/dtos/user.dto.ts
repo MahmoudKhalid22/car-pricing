@@ -9,3 +9,9 @@ export class UserDto {
   @MinLength(6)
   password: string;
 }
+export class UpdateUserDto {
+  @IsString()
+  username: string;
+  @IsEmail()
+  email: string;
+}

@@ -1,5 +1,10 @@
 @localUrl = http://localhost:3000
 
+
+GET {{localUrl}}/user/users
+content-type: application/json
+
+
 POST {{localUrl}}/user/register
 content-type: application/json
 
@@ -8,5 +13,3 @@ content-type: application/json
     "email": "mkhalid@example.com",
     "password": "mkhalid123"
 }
-
- 
