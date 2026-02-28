@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { FindOneOptions, Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -37,19 +38,23 @@ export class UserService {
 
   async findOneUser(id: number) {
     const user = await this.repo.findOne({ where: { id } });
-    if (!user) throw new BadRequestException('user is not found!');
+    if (!user) throw new NotFoundException('user is not found!');
     const { password, ...data } = user;
     return data;
   }
 
   async updateUser(id: number, userData: Partial<User>) {
-    await this.repo.update({ id }, Object.assign(userData));
+    const user = await this.repo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException('user is not found!');
+    Object.assign(user, userData);
+    console.log('user: ', user);
+    return this.repo.save(user);
   }
 
   async removeUser(id: number) {
     const user = await this.repo.findOne({ where: { id } });
     console.log('user: ', user);
-    if (!user) throw new BadRequestException('user is not found!');
+    if (!user) throw new NotFoundException('user is not found!');
     return this.repo.remove(user);
   }
 }

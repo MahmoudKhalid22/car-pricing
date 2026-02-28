@@ -1,9 +1,9 @@
 import {
   AfterInsert,
+  AfterUpdate,
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  Unique,
 } from 'typeorm';
 
 @Entity()
@@ -20,5 +20,10 @@ export class User {
   @AfterInsert()
   logId() {
     console.log('id: ', this.id);
+  }
+
+  @AfterUpdate()
+  logAfterUpdate() {
+    console.log('user id after update', this.id);
   }
 }
