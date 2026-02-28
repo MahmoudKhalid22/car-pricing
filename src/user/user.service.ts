@@ -42,11 +42,8 @@ export class UserService {
     return data;
   }
 
-  async updateUser(id: number, userData: { email: string; username: string }) {
-    await this.repo.update(
-      { id },
-      { email: userData.email, username: userData.username },
-    );
+  async updateUser(id: number, userData: Partial<User>) {
+    await this.repo.update({ id }, Object.assign(userData));
   }
 
   async removeUser(id: number) {
