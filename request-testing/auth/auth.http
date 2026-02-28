@@ -1,0 +1,12 @@
+@localUrl = http://localhost:3000
+
+POST {{localUrl}}/user/register
+content-type: application/json
+
+{
+    "username": "mkhalid",
+    "email": "mkhalid@example.com",
+    "password": "mkhalid123"
+}
+
+ 
