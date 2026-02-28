@@ -6,11 +6,13 @@ import {
   Param,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UpdateUserDto, UserDto } from './dtos/user.dto';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { FindOneOptions } from 'typeorm';
+import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
 
 @Controller('user')
 export class UserController {
@@ -20,10 +22,12 @@ export class UserController {
     await this.userService.create(userData);
   }
 
+  @UseInterceptors(SerializeInterceptor)
   @Get('/users')
   async getAllUsers() {
     return await this.userService.findAll();
   }
+  @UseInterceptors(SerializeInterceptor)
   @Get('/:id')
   async getOneUser(@Param('id') id: number) {
     return await this.userService.findOneUser(id);

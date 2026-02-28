@@ -5,6 +5,7 @@ GET {{localUrl}}/user/users
 content-type: application/json
 
 
+###
 POST {{localUrl}}/user/register
 content-type: application/json
 

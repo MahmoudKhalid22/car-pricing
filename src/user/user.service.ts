@@ -33,14 +33,13 @@ export class UserService {
   async findAll() {
     const users = await this.repo.find({});
     const filteredUsers = users.map(({ password, ...rest }) => rest);
-    return filteredUsers;
+    return users;
   }
 
   async findOneUser(id: number) {
     const user = await this.repo.findOne({ where: { id } });
     if (!user) throw new NotFoundException('user is not found!');
-    const { password, ...data } = user;
-    return data;
+    return user;
   }
 
   async updateUser(id: number, userData: Partial<User>) {
